@@ -40,70 +40,63 @@
 		 	<div class="text-center">
 		 		<img src="{{ asset('backendAssets/assets/images/logo-icon.png') }}" alt="logo icon">
 		 	</div>
-		  <div class="card-title text-uppercase text-center py-3">Sign In</div>
-      @if (\Session::has('success'))
-          <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
-              <strong> {!! \Session::get('success') !!}</strong> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-      @endif
-          
-		    <form action="{{ route('adminlogin') }}" method="POST">
+
+            
+		  <div class="card-title text-uppercase text-center py-3">Sign Up</div>
+               
+                
+		    <form action="{{ route('UserAccountCreate') }}" method="POST">
                 @csrf
+                <div class="form-group">
+                    <label for="exampleInputUsername" class="sr-only">Name</label>
+                    <div class="position-relative has-icon-right">
+                        <input type="text" id="exampleInputUsername" class="form-control input-shadow" name="name" required placeholder="Enter Name">
+                       
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="exampleInputUsername" class="sr-only">Email</label>
                     <div class="position-relative has-icon-right">
-                        <input type="email" id="exampleInputEmail" class="form-control input-shadow" name="email" placeholder="Enter Email">
-                        <div class="form-control-position">
-                            <i class="icon-user"></i>
-                        </div>
+                        <input type="email" id="exampleInputEmail" class="form-control input-shadow" name="email" required placeholder="Enter Email">
+                       
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword" class="sr-only">Password</label>
+                    <label for="exampleInputPhone" class="sr-only">Phone</label>
                     <div class="position-relative has-icon-right">
-                        <input type="password" id="exampleInputPassword" name="password" class="form-control input-shadow" placeholder="Enter Password">
-                        <div class="form-control-position">
-                            <i class="icon-lock"></i>
-                        </div>
+                        <input type="text" id="exampleInputPhone" class="form-control input-shadow" name="phone" required placeholder="Enter Phone">
+                      
                     </div>
                 </div>
-                {{--  <div class="form-row">
-                    <div class="form-group col-6">
-                    <div class="icheck-material-white">
-                        <input type="checkbox" id="user-checkbox" checked="" />
-                        <label for="user-checkbox">Remember me</label>
-                    </div>
-                    </div>
-                    <div class="form-group col-6 text-right">
-                    <a href="reset-password.html">Reset Password</a>
-                    </div>
-                </div>  --}}
-                @if (\Session::has('error'))
-                    <div class="alert alert-danger">
-                        {!! \Session::get('error') !!}
-                    </div>
-                @endif
-                <button type="submit" class="btn btn-light btn-block">Sign In</button>
                 
-                {{--  <div class="text-center mt-3">Sign In With</div>
+                <div class="form-group">
+                    <label for="exampleInputPassword" class="sr-only">Password</label>
+                    <div class="position-relative has-icon-right">
+                        <input type="password" id="exampleInputPassword" name="password" required class="form-control input-shadow" placeholder="Enter Password">
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="text-center">Organizer Name</label>
+                        <select id="OrganizerList"  name="organizer_id" required>
+                            <option ></option>
+                            @if ($organizers->isNotEmpty())
+                                @foreach ($organizers as $data)
+                                    <option class="form-control input-shadow" value="{{$data->id}}">{{$data->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                </div>
+
                 
-                <div class="form-row mt-4">
-                    <div class="form-group mb-0 col-6">
-                    <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i> Facebook</button>
-                    </div>
-                    <div class="form-group mb-0 col-6 text-right">
-                    <button type="button" class="btn btn-light btn-block"><i class="fa fa-twitter-square"></i> Twitter</button>
-                    </div>
-                </div>  --}}
+                <button type="submit" class="btn btn-light btn-block">Sign Up</button>
+              
 			 
 			 </form>
 		   </div>
 		  </div>
 		  <div class="card-footer text-center py-3">
-		    <p class="text-warning mb-0">Do not have an account? <a href="{{ route('user_registration') }}"> Sign Up here</a></p>
+		    <p class="text-warning mb-0">You have an account? <a href="{{ route('adminlogin') }}"> Sign In here</a></p>
 		  </div>
 	     </div>
     
@@ -161,6 +154,19 @@
   
   <!-- Custom scripts -->
   <script src="{{ asset('backendAssets/assets/js/app-script.js') }}"></script>
+
+  
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+  <script>
+      new TomSelect("#OrganizerList",{
+          create: false,
+          sortField: {
+              field: "text",
+              direction: "asc"
+          }
+      });
+  </script>
   
 </body>
 </html>

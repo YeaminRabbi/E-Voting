@@ -8,6 +8,7 @@
   <meta name="author" content=""/>
   <title>JellyFish - Home</title>
 
+ 
   <!-- loader-->
   <link href="{{ asset('backendAssets/assets/css/pace.min.css') }}" rel="stylesheet"/>
   <script src="{{ asset('backendAssets/assets/js/pace.min.js') }}"></script>
@@ -28,6 +29,8 @@
   <link href="{{ asset('backendAssets/assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
   <!-- Custom Style-->
   <link href="{{ asset('backendAssets/assets/css/app-style.css') }}" rel="stylesheet"/>
+  <!-- Data Table js -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
   
 </head>
 
@@ -51,6 +54,14 @@
                 <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+
+
+            <li>
+                <a href="{{ route('organizer') }}">
+                    <i class="zmdi zmdi-group"></i>Organizer</span>
+                </a>
+            </li>
+
 
             <li>
                 <a href="icons.html">
@@ -115,12 +126,7 @@
                 <i class="icon-menu menu-icon"></i>
                 </a>
                 </li>
-                <li class="nav-item">
-                <form class="search-bar">
-                    <input type="text" class="form-control" placeholder="Enter keywords">
-                    <a href="javascript:void();"><i class="icon-magnifier"></i></a>
-                </form>
-                </li>
+                
             </ul>
                 
             <ul class="navbar-nav align-items-center right-nav-link">
@@ -250,6 +256,7 @@
    
   </div><!--End wrapper-->
 
+  
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('backendAssets/assets/js/jquery.min.js') }}"></script>
   <script src="{{ asset('backendAssets/assets/js/popper.min.js') }}"></script>
@@ -271,6 +278,6 @@
   <script src="{{ asset('backendAssets/assets/js/index.js') }}"></script>
 
   @yield('footer_js')
-  
+ 
 </body>
 </html>

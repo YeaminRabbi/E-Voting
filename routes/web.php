@@ -22,3 +22,12 @@ Route::get('/dashboard', 'HomeController@index')->name('dashboard')->middleware(
 
 Route::post('/login', 'LoginController@LOGIN')->name('adminlogin');
 Route::get('/logout', 'LoginController@LOGOUT')->name('adminlogout')->middleware('auth');
+Route::get('/register', 'UserRegistrationController@user_registration')->name('user_registration');
+Route::post('/user/create', 'UserRegistrationController@UserAccountCreate')->name('UserAccountCreate');
+
+
+
+Route::get('/organizer', 'AdminController@organizer')->name('organizer')->middleware('auth');
+Route::post('/organizer/create/', 'AdminController@organizercreate')->name('organizercreate')->middleware('auth');
+Route::get('/organizer/delete/{id}', 'AdminController@organizerdelete')->name('organizerdelete')->middleware('auth');
+
