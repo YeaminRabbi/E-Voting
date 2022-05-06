@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta name="description" content=""/>
   <meta name="author" content=""/>
-  <title>JellyFish - Home</title>
+  <title>Online Voting</title>
 
  
   <!-- loader-->
@@ -30,7 +30,7 @@
   <!-- Custom Style-->
   <link href="{{ asset('backendAssets/assets/css/app-style.css') }}" rel="stylesheet"/>
   <!-- Data Table js -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
   
 </head>
 
@@ -42,7 +42,7 @@
   <!--Start sidebar-wrapper-->
    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
         <div class="brand-logo">
-            <a href="index.html">
+            <a href="{{ route('dashboard') }}">
             <img src="{{ asset('backendAssets/assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
             <h5 class="logo-text">{{ Auth::user()->name }}</h5>
             </a>
@@ -58,12 +58,27 @@
 
             <li>
                 <a href="{{ route('organizer') }}">
-                    <i class="zmdi zmdi-group"></i>Organizer</span>
+                    <i class="zmdi zmdi-group"></i><span>Organizer</span>
                 </a>
             </li>
 
 
             <li>
+                <a href="{{ route('userlist') }}">
+                    <i class="zmdi zmdi-accounts-alt"></i><span>All users</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{{ route('votingportal') }}">
+                    <i class="zmdi zmdi-archive"></i><span>Voting Portal</span>
+                </a>
+            </li>
+
+
+
+            {{--  <li>
                 <a href="icons.html">
                 <i class="zmdi zmdi-invert-colors"></i> <span>UI Icons</span>
                 </a>
@@ -109,7 +124,7 @@
             <li class="sidebar-header">LABELS</li>
             <li><a href="javaScript:void();"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>
             <li><a href="javaScript:void();"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>
-            <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>
+            <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>  --}}
 
         </ul>
     
@@ -130,7 +145,7 @@
             </ul>
                 
             <ul class="navbar-nav align-items-center right-nav-link">
-                <li class="nav-item dropdown-lg">
+                {{--  <li class="nav-item dropdown-lg">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
                     <i class="fa fa-envelope-open-o"></i></a>
                 </li>
@@ -146,10 +161,10 @@
                         <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
                         <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
                     </ul>
-                </li>
+                </li>  --}}
                 <li class="nav-item">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                        <span class="user-profile"><img src="{{ asset('custom_img/2.jpg') }}" class="img-circle" alt="user avatar"></span>
+                        <span class="user-profile"><img src="{{ asset('custom_img/2.jpg') }}" class="img-circle" alt="user avatar"></span> <span>{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-item user-details">
@@ -217,7 +232,7 @@
 	<!--End footer-->
 	
   <!--start color switcher-->
-   <div class="right-sidebar">
+   {{--  <div class="right-sidebar">
     <div class="switcher-icon">
       <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
     </div>
@@ -251,7 +266,7 @@
       </ul>
       
      </div>
-   </div>
+   </div>  --}}
   <!--end color switcher-->
    
   </div><!--End wrapper-->
@@ -262,6 +277,9 @@
   <script src="{{ asset('backendAssets/assets/js/popper.min.js') }}"></script>
   <script src="{{ asset('backendAssets/assets/js/bootstrap.min.js') }}"></script>
 	
+
+  
+
  <!-- simplebar js -->
   <script src="{{ asset('backendAssets/assets/plugins/simplebar/js/simplebar.js') }}"></script>
   <!-- sidebar-menu js -->
@@ -276,8 +294,9 @@
  
   <!-- Index js -->
   <script src="{{ asset('backendAssets/assets/js/index.js') }}"></script>
-
+  
   @yield('footer_js')
+
  
 </body>
 </html>

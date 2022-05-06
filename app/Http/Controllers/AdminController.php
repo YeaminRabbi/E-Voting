@@ -58,4 +58,32 @@ class AdminController extends Controller
         }
        
     }
+
+
+    function userlist()
+    {
+
+        $users = User::whereRoleIs('user')->orderBy('id','desc')->get();
+        $organizer = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
+
+        return view('backend.user-list.list', compact('users','organizer'));
+    }
+
+
+    function votingportal()
+    {
+        $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
+        $users = User::whereRoleIs('user')->orderBy('id','desc')->get();
+
+        return view('backend.voting-portal.create', compact('organizers','users'));
+        
+    }
+
+
+    function portalcreate(Request $req)
+    {
+        return $req->all();
+    }
+
+
 }

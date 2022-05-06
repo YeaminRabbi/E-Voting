@@ -38,4 +38,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    function getOrganizer($id)
+    {
+        $organizer = User::where('id',$id)->first();
+        return $organizer;
+    }
 }

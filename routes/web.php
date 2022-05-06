@@ -30,4 +30,8 @@ Route::post('/user/create', 'UserRegistrationController@UserAccountCreate')->nam
 Route::get('/organizer', 'AdminController@organizer')->name('organizer')->middleware('auth');
 Route::post('/organizer/create/', 'AdminController@organizercreate')->name('organizercreate')->middleware('auth');
 Route::get('/organizer/delete/{id}', 'AdminController@organizerdelete')->name('organizerdelete')->middleware('auth');
+Route::get('/user-list', 'AdminController@userlist')->name('userlist')->middleware('auth');
+
+Route::get('/voting-portal', 'AdminController@votingportal')->name('votingportal')->middleware('auth');
+Route::post('/voting-portal/create', 'AdminController@portalcreate')->name('portalcreate')->middleware('auth');
 

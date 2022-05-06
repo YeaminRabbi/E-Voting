@@ -18,7 +18,7 @@ class LoginController extends Controller
 
         if (Auth::attempt(array('email' => $req->email, 'password' => $req->password))){
             
-            return redirect()->route('dashboard');
+            return redirect()->route('organizer');
          }else{
             return back()->with('error', "These credentials doesn't match with our records");
          }     
