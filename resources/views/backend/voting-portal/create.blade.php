@@ -60,13 +60,7 @@
                           
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="input-3">Details</label>
-                            <textarea name="details" id="input-3" class="form-control form-control-rounded" required cols="60" rows="3"></textarea>
-                        </div>
-                          
-                    </div>
+                   
                 </div>
                 
                

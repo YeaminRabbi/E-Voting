@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use Carbon\Carbon;
+use App\Candidate;
+use App\VotingPortal;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -82,7 +84,37 @@ class AdminController extends Controller
 
     function portalcreate(Request $req)
     {
-        return $req->all();
+
+        $req->validate([
+            'organizer_id' => 'required',
+            'date'=>'required',
+            'position'=>'required',
+            'start_time'=>'required',
+            'end_time'=>'required'
+        ]);
+           
+        $portal = new VotingPortal;
+        $portal->organizer_id = $req->organizer_id;
+        $portal->date = $req->date;
+        $portal->position = $req->position;
+        $portal->start_time = $req->start_time;
+        $portal->end_time = $req->end_time;
+        $portal->save();
+
+        foreach ($req->candidate_name as $key => $value) {
+            $candidate = new Candidate;
+            $candidate->organizer_id = $req->organizer_id;
+            $candidate->voting_portal_id = $portal->id;
+            $candidate->name = $req->candidate_name[$key];
+            $candidate->email = $req->candidate_email[$key];
+            $candidate->image = '$req->candidate_email[$key];';
+            $candidate->phone = $req->candidate_phone[$key];
+            $candidate->designation = $req->designation[$key];
+
+            $candidate->save();
+        }  
+
+        return back();
     }
 
 
