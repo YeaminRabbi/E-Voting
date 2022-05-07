@@ -9,6 +9,10 @@ use Carbon\Carbon;
 use App\Candidate;
 use App\VotingPortal;
 
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -93,28 +97,57 @@ class AdminController extends Controller
             'end_time'=>'required'
         ]);
            
-        $portal = new VotingPortal;
-        $portal->organizer_id = $req->organizer_id;
-        $portal->date = $req->date;
-        $portal->position = $req->position;
-        $portal->start_time = $req->start_time;
-        $portal->end_time = $req->end_time;
-        $portal->save();
+       
 
-        foreach ($req->candidate_name as $key => $value) {
-            $candidate = new Candidate;
-            $candidate->organizer_id = $req->organizer_id;
-            $candidate->voting_portal_id = $portal->id;
-            $candidate->name = $req->candidate_name[$key];
-            $candidate->email = $req->candidate_email[$key];
-            $candidate->image = '$req->candidate_email[$key];';
-            $candidate->phone = $req->candidate_phone[$key];
-            $candidate->designation = $req->designation[$key];
 
-            $candidate->save();
-        }  
+        if($req->hasFile('img')){
 
-        return back();
+            $portal = new VotingPortal;
+            $portal->organizer_id = $req->organizer_id;
+            $portal->date = $req->date;
+            $portal->position = $req->position;
+            $portal->start_time = $req->start_time;
+            $portal->end_time = $req->end_time;
+            $portal->save();
+    
+
+            $images = $req->file('img');
+
+            
+            foreach ($req->candidate_name as $key => $value) {
+                $candidate = new Candidate;
+                $candidate->organizer_id = $req->organizer_id;
+                $candidate->voting_portal_id = $portal->id;
+                $candidate->name = $req->candidate_name[$key];
+                $candidate->email = $req->candidate_email[$key];
+                $candidate->phone = $req->candidate_phone[$key];
+                $candidate->designation = $req->designation[$key];
+    
+                // Storage::putFile('public/images/candidate/',$images[$key]);
+                // $candidate->image = "public/images/candidate/".$images[$key]->hashName();
+                
+                $IMGNAME = Str::random(10).'.'. $images[$key]->getClientOriginalExtension();       
+                $thumbnail_location = 'images/candidate/'
+                . Carbon::now()->format('Y/M/')
+                .'/';
+    
+                //Make Directory 
+                File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+                //save Image to the thumbnail path
+                Image::make($images[$key])->save(public_path($thumbnail_location.$IMGNAME));
+
+                $candidate->image = $IMGNAME;
+
+
+                $candidate->save();
+            }  
+            return back();
+        }
+        else{
+            return 'Error';
+        }
+        
+
     }
 
 

@@ -8,7 +8,7 @@
              <div class="card-body">
              <div class="card-title">Voting Portal Form</div>
              <hr>
-              <form action="{{ route('portalcreate') }}" method="POST" >
+              <form action="{{ route('portalcreate') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
