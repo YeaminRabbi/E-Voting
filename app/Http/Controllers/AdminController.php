@@ -18,9 +18,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:admin');        
+    }
+
     function organizer()
     {
-
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
         return view('backend.organizer.organizer', compact('organizers'));
     }
@@ -150,5 +155,57 @@ class AdminController extends Controller
 
     }
 
+    function portallist()
+    {
+        $portals = VotingPortal::orderBy('id','desc')->get();
+
+        return view('backend.voting-portal.list', compact('portals'));
+    }
+
+
+    function portalActive($id)
+    {
+        $portal = VotingPortal::where('id',$id)->first();
+
+        if(!empty($portal)){
+            $portal->status = 1;
+            $portal->save();
+            return back();
+        }
+        else{
+            return view('404');
+        }
+
+    }
+
+
+    function portalClose($id)
+    {
+        $portal = VotingPortal::where('id',$id)->first();
+
+        if(!empty($portal)){
+            $portal->status = 2;
+            $portal->save();
+            return back();
+        }
+        else{
+            return view('404');
+        }
+    }
+
+
+    function portalView($id)
+    {
+        $portal = VotingPortal::where('id',$id)->first();
+        $candidates = Candidate::where('voting_portal_id',$id)->get();
+
+        if(!empty($portal)){
+            
+            return view('backend.voting-protal.view', compact('portal', 'candidates'));
+        }
+        else{
+            return view('404');
+        }
+    }
 
 }

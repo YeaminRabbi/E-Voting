@@ -76,6 +76,13 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('portallist') }}">
+                    <i class="zmdi zmdi-archive"></i><span>Portal List</span>
+                </a>
+            </li>
+
+
 
 
             {{--  <li>

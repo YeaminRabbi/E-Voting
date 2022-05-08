@@ -34,4 +34,10 @@ Route::get('/user-list', 'AdminController@userlist')->name('userlist')->middlewa
 
 Route::get('/voting-portal', 'AdminController@votingportal')->name('votingportal')->middleware('auth');
 Route::post('/voting-portal/create', 'AdminController@portalcreate')->name('portalcreate')->middleware('auth');
+Route::get('/voting-portal/list', 'AdminController@portallist')->name('portallist')->middleware('auth');
+Route::get('/voting-portal/view/{id}', 'AdminController@portalView')->name('portalView')->middleware('auth');
+
+
+Route::get('/voting-portal/active/{id}', 'AdminController@portalActive')->name('portalActive')->middleware('auth');
+Route::get('/voting-portal/close/{id}', 'AdminController@portalClose')->name('portalClose')->middleware('auth');
 
