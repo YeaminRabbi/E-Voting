@@ -201,7 +201,7 @@ class AdminController extends Controller
 
         if(!empty($portal)){
             
-            return view('backend.voting-protal.view', compact('portal', 'candidates'));
+            return view('backend.voting-portal.view', compact('portal', 'candidates'));
         }
         else{
             return view('404');

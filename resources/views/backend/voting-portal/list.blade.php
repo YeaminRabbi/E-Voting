@@ -48,15 +48,17 @@
                             <td>
                                 @if ($data->status == 0)
                                   <a href="{{ route('portalActive', $data->id) }}" class="btn btn-primary">Make Active</a>
+                                  <a href="{{ route('portalView', $data->id) }}" class="btn btn-warning">View</a>
+
                                @elseif ($data->status == 1)
                                   <a href="{{ route('portalClose', $data->id) }}" class="btn btn-danger" onclick="return confirm('are you sure? You want to Close the Portal!')">Close Portal</a>
+                                  
                                @elseif($data->status == 2)                                   
                                     <button disabled class="btn btn-success">Results</button>
                                @else
                                     <p>Error</p>
                                @endif 
 
-                                <a href="{{ route('portalView', $data->id) }}" class="btn btn-warning">View</a>
                             </td>
                           </tr>
                         @endforeach
