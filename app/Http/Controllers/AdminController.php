@@ -208,4 +208,110 @@ class AdminController extends Controller
         }
     }
 
+
+    function portalChange($id)
+    {
+        $portal = VotingPortal::where('id',$id)->first();
+        $candidates = Candidate::where('voting_portal_id',$id)->get();
+        $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
+        
+        if(!empty($portal)){
+            
+            return view('backend.voting-portal.change', compact('portal', 'candidates', 'organizers'));
+        }
+        else{
+            return view('404');
+        }
+    }
+
+
+    function portalupdate(Request $req)
+    {
+        $req->validate([
+            'organizer_id' => 'required',
+            'date'=>'required',
+            'position'=>'required',
+            'start_time'=>'required',
+            'end_time'=>'required',
+            'portal_id'=>'required'
+        ]);
+        
+   
+        $portal = VotingPortal::where('id', $req->portal_id)->first();
+        if(!empty($portal)){
+        
+            $portal->organizer_id = $req->organizer_id;
+            $portal->date = $req->date;
+            $portal->position = $req->position;
+            $portal->start_time = $req->start_time;
+            $portal->end_time = $req->end_time;
+            $portal->save();
+
+            $candidates = Candidate::where('voting_portal_id',$req->portal_id)->get();
+
+            foreach ($candidates as $key => $person) {
+                $person->organizer_id = $portal->organizer_id;
+                $person->save();
+            }
+
+            return back();
+    
+        }
+        else{
+            return view('404');
+        }           
+            
+
+    }
+
+
+    function CandidateChange($id)
+    {
+        $candidate = Candidate::where('id',$id)->first();
+        if(!empty($candidate)){
+            return view('backend.candidate.change', compact('candidate'));
+        }
+        else{
+            return view('404');
+        }
+    }
+
+    function CandidateUpdate(Request $req){
+        $req->validate([
+            'candidate_id' => 'required',
+            'candidate_name'=>'required',
+            'candidate_email'=>'required',
+            'candidate_phone'=>'required',
+            'designation'=>'required'
+        ]);
+
+        $candidate = Candidate::where('id',$req->candidate_id)->first();
+        if(!empty($candidate)){
+             
+            if($req->hasFile('img')){
+                $images = $req->file('img');
+                $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();       
+                $thumbnail_location = 'images/candidate/'
+                . Carbon::now()->format('Y/M/')
+                .'/';    
+                //Make Directory 
+                File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+                //save Image to the thumbnail path
+                Image::make($images)->save(public_path($thumbnail_location.$IMGNAME));
+
+                $candidate->image = $IMGNAME;
+            }
+           
+            $candidate->name = $req->candidate_name;
+            $candidate->email = $req->candidate_email;
+            $candidate->phone = $req->candidate_phone;
+            $candidate->designation = $req->designation;
+            $candidate->save();
+            return back();
+        }
+        else{
+            return view('404');
+        }
+
+    }
 }

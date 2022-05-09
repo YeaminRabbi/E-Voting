@@ -4,9 +4,16 @@
     <div class="container">
 
         <div class="row mt-3 mb-4">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <h4>This Poll is Open from <span style="color: lime;"> {{ date('h:ia', strtotime( $portal->start_time))  }}</span> to <span style="color:lime;">{{ date('h:ia', strtotime( $portal->end_time)) }}</span> at <span style="color:lime;">{{ date('d M, Y', strtotime( $portal->date)) }}</span></h4>
             </div>
+            <div class="col-md-4">
+                <a href="{{ route('portallist') }}" class="btn btn-dark btn-round px-5">Back</a>
+                <a href="{{ route('portalChange', $portal->id) }}" class="btn btn-success btn-round px-5">Make Changes</a>
+            </div>
+            
+
+
         </div>
         <div class="row mt-3">
 

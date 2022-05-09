@@ -36,7 +36,11 @@ Route::get('/voting-portal', 'AdminController@votingportal')->name('votingportal
 Route::post('/voting-portal/create', 'AdminController@portalcreate')->name('portalcreate')->middleware('auth');
 Route::get('/voting-portal/list', 'AdminController@portallist')->name('portallist')->middleware('auth');
 Route::get('/voting-portal/view/{id}', 'AdminController@portalView')->name('portalView')->middleware('auth');
+Route::get('/voting-portal/change/{id}', 'AdminController@portalChange')->name('portalChange')->middleware('auth');
+Route::post('/voting-portal/update', 'AdminController@portalupdate')->name('portalupdate')->middleware('auth');
 
+Route::get('/candidate/change/{id}', 'AdminController@CandidateChange')->name('CandidateChange')->middleware('auth');
+Route::post('/candidate/update', 'AdminController@CandidateUpdate')->name('CandidateUpdate')->middleware('auth');
 
 Route::get('/voting-portal/active/{id}', 'AdminController@portalActive')->name('portalActive')->middleware('auth');
 Route::get('/voting-portal/close/{id}', 'AdminController@portalClose')->name('portalClose')->middleware('auth');

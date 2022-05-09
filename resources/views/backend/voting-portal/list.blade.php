@@ -30,7 +30,7 @@
                             <th scope="row">{{ $key+1 }}</th>
                             <td>{{ $data->get_organizer($data->organizer_id)->name }}</td>
                             <td>{{ $data->position }}</td>
-                            <td>{{ date('d m, Y', strtotime($data->date)) }}</td>
+                            <td>{{ date('d M, Y', strtotime($data->date)) }}</td>
                             
                             <td>
                                @if ($data->status == 0)
@@ -47,7 +47,8 @@
 
                             <td>
                                 @if ($data->status == 0)
-                                  <a href="{{ route('portalActive', $data->id) }}" class="btn btn-primary">Make Active</a>
+                                  <a href="{{ route('portalActive', $data->id) }}" class="btn btn-dark">Make Active</a>
+                                  <a href="{{ route('portalChange', $data->id) }}" class="btn btn-primary">Change</a>
                                   <a href="{{ route('portalView', $data->id) }}" class="btn btn-warning">View</a>
 
                                @elseif ($data->status == 1)
