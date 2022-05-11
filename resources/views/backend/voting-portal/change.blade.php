@@ -80,10 +80,17 @@
       
       <hr>
 
-      <div class="row mt-5">
+      <div class="row mt-5" id="CandidateShow">
 
         <div class="col-md-12">
-            <h3 class="mb-3">Candidates:</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="mb-3">Candidates:</h3> 
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success btn-round px-5" onclick="show('CandidateAddForm','CandidateShow')">Add New Candidate</button>
+                </div>
+            </div>
         </div>
         @if ($candidates->isNotEmpty())
             @foreach ($candidates as $data)
@@ -136,8 +143,60 @@
         @endif
       </div>
 
+      <div class="row mt-5" id="CandidateAddForm" style="display: none;">
+        <div class="col-md-6">
+            <h4>Add new Candidate</h4>
+        </div>
+        <form action="{{ route('candidateAddNew') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-      <div class="row">
+            <input type="hidden" name="organizer_id" value="{{ $portal->organizer_id  }}">
+            <input type="hidden" name="voting_portal_id" value="{{ $portal->id  }}">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Candidate Name</label>
+                    <input type="text" class="form-control form-control-rounded" name="candidate_name" required>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control form-control-rounded" name="candidate_email" required>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" class="form-control form-control-rounded" name="candidate_phone" required>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" class="form-control form-control-rounded" name="designation" required>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Image</label>
+                    <input type="file" class="form-control form-control-rounded" name="img" required>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success btn-round px-5">
+                    Add Candidate
+                </button>
+                <a class="btn btn-round px-5 btn-dark" onclick="show('CandidateShow','CandidateAddForm')">Back</a>
+            </div>
+        </form>
+      </div>
+
+      <div class="row mt-5">
         <div class="col-md-12">
             <a href="{{ route('portallist') }}" class="btn btn-dark btn-round px-5 btn-block">Back</a>
         </div>
@@ -159,47 +218,19 @@
 </script>
 
 <script>
-    function ADDFORM(){
+    function show(d1,d2){
+        var x = document.getElementById(d1);
+        var y = document.getElementById(d2);
 
-        console.log('hekko');
-        var form = document.getElementById('items');
-       
-        form.innerHTML+= 
-        '<hr>'+
-        '<div class="row">'+
-           
-            '<div class="col-md-6">'+
-                '<div class="form-group">'+
-                    '<label>Name</label>'+
-                    '<input type="text" class="form-control form-control-rounded" name="candidate_name[]" required>'+
-                '</div>'+
-            '</div>'+
-            '<div class="col-md-6">'+
-                '<div class="form-group">'+
-                    '<label>Email</label>'+
-                    '<input type="text" class="form-control form-control-rounded" name="candidate_email[]" required>'+
-                '</div>'+
-            '</div>'+
-            '<div class="col-md-4">'+
-                '<div class="form-group">'+
-                    '<label>Phone</label>'+
-                    '<input type="text" class="form-control form-control-rounded" name="candidate_phone[]" required>'+
-                '</div>'+
-            '</div>'+
-            '<div class="col-md-4">'+
-                '<div class="form-group">'+
-                    '<label>Designation</label>'+
-                    '<input type="text" class="form-control form-control-rounded" name="designation[]" required>'+
-                '</div>'+
-            '</div>'+
-            '<div class="col-md-4">'+
-                '<div class="form-group">'+
-                    '<label>Image</label>'+
-                    '<input type="file" class="form-control form-control-rounded" name="img[]" required>'+
-                '</div>'+
-            '</div>'+
-        '</div>'+
-       '<br>';
+        if (x.style.display === "block") {
+          x.style.display = "none";
+          y.style.display = "block";
+
+        } else {
+          x.style.display = "block";
+          y.style.display = "none";
+
+        }
     }
 </script>
 @endsection

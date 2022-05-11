@@ -314,4 +314,42 @@ class AdminController extends Controller
         }
 
     }
+
+    function candidateAddNew(Request $req){
+        $req->validate([
+            'organizer_id' => 'required',
+            'voting_portal_id' => 'required',
+            'candidate_name'=>'required',
+            'candidate_email'=>'required',
+            'candidate_phone'=>'required',
+            'img'=>'required'
+        ]);
+
+        if($req->hasFile('img')){
+            $images = $req->file('img');
+            $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();       
+            $thumbnail_location = 'images/candidate/'
+            . Carbon::now()->format('Y/M/')
+            .'/';    
+            //Make Directory 
+            File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+            //save Image to the thumbnail path
+            Image::make($images)->save(public_path($thumbnail_location.$IMGNAME));
+
+          
+        }
+        $candidate = new Candidate;
+        $candidate->organizer_id = $req->organizer_id;
+        $candidate->voting_portal_id = $req->voting_portal_id;
+        $candidate->name = $req->candidate_name;
+        $candidate->email = $req->candidate_email;
+        $candidate->phone = $req->candidate_phone;
+        $candidate->designation = $req->designation;
+        $candidate->image = $IMGNAME;
+        $candidate->save();
+        return back();
+
+
+
+    }
 }
