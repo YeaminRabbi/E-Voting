@@ -82,6 +82,12 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('userimport') }}">
+                    <i class="zmdi zmdi-archive"></i><span>Import Users</span>
+                </a>
+            </li>
+
 
 
 

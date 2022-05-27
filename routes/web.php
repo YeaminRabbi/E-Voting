@@ -48,3 +48,7 @@ Route::post('/candidate/add-new', 'AdminController@candidateAddNew')->name('cand
 Route::get('/voting-portal/active/{id}', 'AdminController@portalActive')->name('portalActive')->middleware('auth');
 Route::get('/voting-portal/close/{id}', 'AdminController@portalClose')->name('portalClose')->middleware('auth');
 
+
+Route::get('/user-import', 'AdminController@userimport')->name('userimport')->middleware('auth');
+Route::post('/user-upload', 'AdminController@userlistUpload')->name('userlistUpload')->middleware('auth');
+

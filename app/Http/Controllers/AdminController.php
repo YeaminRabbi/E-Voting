@@ -16,6 +16,13 @@ use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class AdminController extends Controller
 {
 
@@ -351,5 +358,71 @@ class AdminController extends Controller
 
 
 
+    }
+
+
+    function userimport()
+    {
+
+        $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
+        return view('backend.user-list.import', [
+            'organizers' => $organizers
+        
+        ]);
+    }
+
+    function userlistUpload(Request $request)
+    {
+
+        $this->validate($request, [
+            'uploaded_file' => 'required|file|mimes:xls,xlsx',
+            'organizer_id' => 'required'
+        ]);
+        $the_file = $request->file('uploaded_file');
+        
+        try{
+            $spreadsheet = IOFactory::load($the_file->getRealPath());
+            $sheet        = $spreadsheet->getActiveSheet();
+            $row_limit    = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range    = range( 2, $row_limit );
+            $column_range = range( 'F', $column_limit );
+            $startcount = 2;
+            $user_list = array();
+            foreach ( $row_range as $row ) {
+                $user_list[] = [
+                    'name' =>$sheet->getCell( 'A' . $row )->getValue(),
+                    'email' => $sheet->getCell( 'B' . $row )->getValue(),
+                    'phone' => $sheet->getCell( 'C' . $row )->getValue(),
+                    'office_id' => $sheet->getCell( 'D' . $row )->getValue(),
+                    
+                   
+                ];
+                $startcount++;
+            }
+
+            foreach($user_list as $person)
+            {
+                $user = new User;
+                $user->name = $person['name'];
+                $user->email = $person['email'];
+                $user->password =  Hash::make($person['phone']);
+                $user->phone = $person['phone'];;
+                $user->email_verified_at = Carbon::now();
+                $user->organizer_id = $request->organizer_id;
+                $user->save();
+        
+                $RegisteredUser = User::find($user->id);
+                $RegisteredUser->attachRole('user');
+                $RegisteredUser->save();
+            }
+           
+           
+        } catch (Exception $e) {
+            $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        return back()->withSuccess('Great! Data has been successfully uploaded.');
+ 
     }
 }
