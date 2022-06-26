@@ -31,6 +31,13 @@ class AdminController extends Controller
         $this->middleware('role:admin');        
     }
 
+
+    function test()
+    {
+        $testTrial =  VotingPortal::where('id',19)->first();
+        return view('backend.test',compact('testTrial'));
+    }
+
     function organizer()
     {
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
@@ -165,6 +172,8 @@ class AdminController extends Controller
     function portallist()
     {
         $portals = VotingPortal::orderBy('id','desc')->get();
+
+        
 
         return view('backend.voting-portal.list', compact('portals'));
     }

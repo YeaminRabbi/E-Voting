@@ -52,3 +52,4 @@ Route::get('/voting-portal/close/{id}', 'AdminController@portalClose')->name('po
 Route::get('/user-import', 'AdminController@userimport')->name('userimport')->middleware('auth');
 Route::post('/user-upload', 'AdminController@userlistUpload')->name('userlistUpload')->middleware('auth');
 
+Route::get('/test', 'AdminController@test')->name('testTrial')->middleware('auth');
