@@ -8,7 +8,7 @@
 
             @if (\Session::has('duplicateEmail'))
                     <div class="alert alert-warning" id="ALERT">
-                       <span>Few email are found to be prexisted in the System!</span>
+                       <span>Few email(s) found to be prexisted in the System!</span>
 
                         <a href="{{ route('DuplicateEmailUsers') }}" style="color:blue;font-weight:bold;">&nbsp;&nbsp; Click for more details..</a>
                     </div>

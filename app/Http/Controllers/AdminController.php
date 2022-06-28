@@ -70,11 +70,24 @@ class AdminController extends Controller
         $RegisteredUser->save();
 
         return back()->with('success', 'User Added Successfully!');
+
+
     }
 
-    function test()
+    function test($id)
     {
-        $testTrial =  VotingPortal::where('id',19)->first();
+        $testTrial =  VotingPortal::where('id',$id)->first();
+        $currentDate = Carbon::now();
+        $startDate = $testTrial->date.' '.date('H:i:s', strtotime($testTrial->start_time));
+        $endDate =  $testTrial->date.' '.date('H:i:s', strtotime($testTrial->end_time));
+
+        if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
+            return "Current date is between two dates".'-----'.$currentDate.'---'. $startDate.'---'. $endDate ;
+          }else{
+            return "Current date is not between two dates".'--------'.$currentDate.'---'. $startDate.'---'. $endDate;
+          }
+
+
         return view('backend.test',compact('testTrial'));
     }
 

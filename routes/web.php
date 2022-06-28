@@ -61,4 +61,4 @@ Route::get('/duplicate-email-users/update/{id}', 'AdminController@UpdateDubplica
 
 
 
-Route::get('/test', 'AdminController@test')->name('testTrial')->middleware('auth');
+Route::get('/test/{id}', 'AdminController@test')->name('testTrial')->middleware('auth');
