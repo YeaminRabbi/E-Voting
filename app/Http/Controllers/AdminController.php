@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+
 use App\User;
 use Carbon\Carbon;
 use App\Candidate;
 use App\VotingPortal;
+use App\DuplicateEmailUser;
 
 
 use Illuminate\Support\Str;
@@ -28,9 +30,47 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:admin');        
+        $this->middleware('role:admin');
     }
 
+
+    function addSingleUser(Request $request)
+    {
+        $Alldata =$request->all();
+        $rules = [
+            'name' => 'required|regex:/^[\pL\s\-]+$/u',
+            'email' =>'required|email|unique:users',
+
+        ];
+        $customMessage = [
+            'name.required' => 'Name is required',
+            'name.regex' => 'Valid name is required',
+            'email.required' => 'Email is required',
+            'email.email' => 'Valid email is required',
+            'password.required' => 'Password is required',
+        ];
+
+        $validator = Validator::make($Alldata,$rules,$customMessage);
+        if($validator->fails()){
+            return response()->json($validator->errors(),422);
+
+        }
+
+        $user = new User;
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password =  Hash::make($request['phone']);
+        $user->phone = $request['phone'];;
+        $user->email_verified_at = Carbon::now();
+        $user->organizer_id = $request->organizer_id;
+        $user->save();
+
+        $RegisteredUser = User::find($user->id);
+        $RegisteredUser->attachRole('user');
+        $RegisteredUser->save();
+
+        return back()->with('success', 'User Added Successfully!');
+    }
 
     function test()
     {
@@ -81,7 +121,7 @@ class AdminController extends Controller
         else{
             return view('404');
         }
-       
+
     }
 
 
@@ -101,7 +141,7 @@ class AdminController extends Controller
         $users = User::whereRoleIs('user')->orderBy('id','desc')->get();
 
         return view('backend.voting-portal.create', compact('organizers','users'));
-        
+
     }
 
 
@@ -115,8 +155,8 @@ class AdminController extends Controller
             'start_time'=>'required',
             'end_time'=>'required'
         ]);
-           
-       
+
+
 
 
         if($req->hasFile('img')){
@@ -128,11 +168,11 @@ class AdminController extends Controller
             $portal->start_time = $req->start_time;
             $portal->end_time = $req->end_time;
             $portal->save();
-    
+
 
             $images = $req->file('img');
 
-            
+
             foreach ($req->candidate_name as $key => $value) {
                 $candidate = new Candidate;
                 $candidate->organizer_id = $req->organizer_id;
@@ -141,17 +181,17 @@ class AdminController extends Controller
                 $candidate->email = $req->candidate_email[$key];
                 $candidate->phone = $req->candidate_phone[$key];
                 $candidate->designation = $req->designation[$key];
-    
+
                 // Storage::putFile('public/images/candidate/',$images[$key]);
                 // $candidate->image = "public/images/candidate/".$images[$key]->hashName();
-                
-                $IMGNAME = Str::random(10).'.'. $images[$key]->getClientOriginalExtension();       
+
+                $IMGNAME = Str::random(10).'.'. $images[$key]->getClientOriginalExtension();
                 $thumbnail_location = 'images/candidate/'
                 . Carbon::now()->format('Y/M/')
                 .'/';
-    
-                //Make Directory 
-                File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+
+                //Make Directory
+                File::makeDirectory($thumbnail_location, $mode=0777, true, true);
                 //save Image to the thumbnail path
                 Image::make($images[$key])->save(public_path($thumbnail_location.$IMGNAME));
 
@@ -159,22 +199,19 @@ class AdminController extends Controller
 
 
                 $candidate->save();
-            }  
+            }
             return back();
         }
         else{
             return 'Error';
         }
-        
+
 
     }
 
     function portallist()
     {
         $portals = VotingPortal::orderBy('id','desc')->get();
-
-        
-
         return view('backend.voting-portal.list', compact('portals'));
     }
 
@@ -216,7 +253,7 @@ class AdminController extends Controller
         $candidates = Candidate::where('voting_portal_id',$id)->get();
 
         if(!empty($portal)){
-            
+
             return view('backend.voting-portal.view', compact('portal', 'candidates'));
         }
         else{
@@ -230,9 +267,9 @@ class AdminController extends Controller
         $portal = VotingPortal::where('id',$id)->first();
         $candidates = Candidate::where('voting_portal_id',$id)->get();
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
-        
+
         if(!empty($portal)){
-            
+
             return view('backend.voting-portal.change', compact('portal', 'candidates', 'organizers'));
         }
         else{
@@ -251,11 +288,11 @@ class AdminController extends Controller
             'end_time'=>'required',
             'portal_id'=>'required'
         ]);
-        
-   
+
+
         $portal = VotingPortal::where('id', $req->portal_id)->first();
         if(!empty($portal)){
-        
+
             $portal->organizer_id = $req->organizer_id;
             $portal->date = $req->date;
             $portal->position = $req->position;
@@ -271,12 +308,12 @@ class AdminController extends Controller
             }
 
             return back();
-    
+
         }
         else{
             return view('404');
-        }           
-            
+        }
+
 
     }
 
@@ -303,21 +340,21 @@ class AdminController extends Controller
 
         $candidate = Candidate::where('id',$req->candidate_id)->first();
         if(!empty($candidate)){
-             
+
             if($req->hasFile('img')){
                 $images = $req->file('img');
-                $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();       
+                $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();
                 $thumbnail_location = 'images/candidate/'
                 . Carbon::now()->format('Y/M/')
-                .'/';    
-                //Make Directory 
-                File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+                .'/';
+                //Make Directory
+                File::makeDirectory($thumbnail_location, $mode=0777, true, true);
                 //save Image to the thumbnail path
                 Image::make($images)->save(public_path($thumbnail_location.$IMGNAME));
 
                 $candidate->image = $IMGNAME;
             }
-           
+
             $candidate->name = $req->candidate_name;
             $candidate->email = $req->candidate_email;
             $candidate->phone = $req->candidate_phone;
@@ -343,16 +380,16 @@ class AdminController extends Controller
 
         if($req->hasFile('img')){
             $images = $req->file('img');
-            $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();       
+            $IMGNAME = Str::random(10).'.'. $images->getClientOriginalExtension();
             $thumbnail_location = 'images/candidate/'
             . Carbon::now()->format('Y/M/')
-            .'/';    
-            //Make Directory 
-            File::makeDirectory($thumbnail_location, $mode=0777, true, true);        
+            .'/';
+            //Make Directory
+            File::makeDirectory($thumbnail_location, $mode=0777, true, true);
             //save Image to the thumbnail path
             Image::make($images)->save(public_path($thumbnail_location.$IMGNAME));
 
-          
+
         }
         $candidate = new Candidate;
         $candidate->organizer_id = $req->organizer_id;
@@ -370,13 +407,13 @@ class AdminController extends Controller
     }
 
 
-    function userimport()
+    function addUsers()
     {
 
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
-        return view('backend.user-list.import', [
+        return view('backend.user-list.add-users', [
             'organizers' => $organizers
-        
+
         ]);
     }
 
@@ -388,7 +425,7 @@ class AdminController extends Controller
             'organizer_id' => 'required'
         ]);
         $the_file = $request->file('uploaded_file');
-        
+
         try{
             $spreadsheet = IOFactory::load($the_file->getRealPath());
             $sheet        = $spreadsheet->getActiveSheet();
@@ -403,35 +440,95 @@ class AdminController extends Controller
                     'name' =>$sheet->getCell( 'A' . $row )->getValue(),
                     'email' => $sheet->getCell( 'B' . $row )->getValue(),
                     'phone' => $sheet->getCell( 'C' . $row )->getValue(),
-                    'office_id' => $sheet->getCell( 'D' . $row )->getValue(),
-                    
-                   
                 ];
                 $startcount++;
             }
 
+            $checkDuplicateEmail = 1;
+            $duplicateEmail = null;
             foreach($user_list as $person)
             {
-                $user = new User;
-                $user->name = $person['name'];
-                $user->email = $person['email'];
-                $user->password =  Hash::make($person['phone']);
-                $user->phone = $person['phone'];;
-                $user->email_verified_at = Carbon::now();
-                $user->organizer_id = $request->organizer_id;
-                $user->save();
-        
-                $RegisteredUser = User::find($user->id);
-                $RegisteredUser->attachRole('user');
-                $RegisteredUser->save();
+                $varifyEmail = User::where('email', $person['email'])->first();
+                if(isset($varifyEmail))
+                {
+                    $duplicate = new DuplicateEmailUser;
+                    $duplicate->name = $person['name'];
+                    $duplicate->email = $person['email'];
+                    $duplicate->phone = $person['phone'];
+                    $duplicate->organizer_id = $request->organizer_id;
+                    $duplicate->save();
+
+                    $duplicateEmail = $duplicateEmail.'|'.$person['email'];
+                    $checkDuplicateEmail = 0;
+                    continue;
+                }
+                else{
+                    $user = new User;
+                    $user->name = $person['name'];
+                    $user->email = $person['email'];
+                    $user->password =  Hash::make($person['phone']);
+                    $user->phone = $person['phone'];
+                    $user->email_verified_at = Carbon::now();
+                    $user->organizer_id = $request->organizer_id;
+                    $user->save();
+
+                    $RegisteredUser = User::find($user->id);
+                    $RegisteredUser->attachRole('user');
+                    $RegisteredUser->save();
+                }
+
+
             }
-           
-           
+
+
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
         }
-        return back()->withSuccess('Great! Data has been successfully uploaded.');
- 
+
+        if($checkDuplicateEmail == 1)
+        {
+            return back()->with('success', 'Great! Data has been successfully uploaded.');
+        }
+        else{
+            return back()->with([
+                'duplicateEmail' => $duplicateEmail
+            ]);
+
+        }
+
+    }
+
+
+    function DuplicateEmailUsers()
+    {
+        $duplicateEmails = DuplicateEmailUser::orderBy('id', 'DESC')->get();
+
+        return view('backend.user-list.duplicate', compact('duplicateEmails'));
+    }
+
+    function UpdateDubplicateEmails($id)
+    {
+        $userList = DuplicateEmailUser::where('id', $id)->first();
+
+        $user = new user;
+        $user->name = $userList->name;
+        $user->email = substr($userList->phone, -3).$userList->email;
+        $user->phone = $userList->phone;
+        $user->phone = $userList->phone;
+        $user->password =  Hash::make($userList->phone);
+
+        $user->email_verified_at = Carbon::now();
+        $user->organizer_id = $userList->organizer_id;
+        $user->save();
+
+        $RegisteredUser = User::find($user->id);
+        $RegisteredUser->attachRole('user');
+        $RegisteredUser->save();
+
+        $userList->delete();
+
+        return back()->with('success', 'The User has been added!');
+
     }
 }

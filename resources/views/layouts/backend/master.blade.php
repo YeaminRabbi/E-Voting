@@ -8,13 +8,13 @@
   <meta name="author" content=""/>
   <title>Online Voting</title>
 
- 
+
   <!-- loader-->
   <link href="{{ asset('backendAssets/assets/css/pace.min.css') }}" rel="stylesheet"/>
   <script src="{{ asset('backendAssets/assets/js/pace.min.js') }}"></script>
   <!--favicon-->
   <link rel="icon" href="{{ asset('custom_img/f-white.png') }}" type="image/x-icon">
-  
+
   <!-- Vector CSS -->
   <link href="{{ asset('backendAssets/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet"/>
   <!-- simplebar CSS-->
@@ -31,14 +31,14 @@
   <link href="{{ asset('backendAssets/assets/css/app-style.css') }}" rel="stylesheet"/>
   <!-- Data Table js -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-  
+
 </head>
 
 <body class="bg-theme bg-theme1">
- 
+
 <!-- Start wrapper-->
  <div id="wrapper">
- 
+
   <!--Start sidebar-wrapper-->
    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
         <div class="brand-logo">
@@ -55,92 +55,50 @@
                 </a>
             </li>
 
-
+            <li class="sidebar-header">Organizers - Users</li>
             <li>
                 <a href="{{ route('organizer') }}">
                     <i class="zmdi zmdi-group"></i><span>Organizer</span>
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('addUsers') }}">
+                    <i class="zmdi zmdi-archive"></i><span>Add User</span>
+                </a>
+            </li>
 
             <li>
                 <a href="{{ route('userlist') }}">
-                    <i class="zmdi zmdi-accounts-alt"></i><span>All users</span>
+                    <i class="zmdi zmdi-accounts-alt"></i><span>User-List</span>
                 </a>
             </li>
 
 
             <li>
+                <a href="{{ route('DuplicateEmailUsers') }}">
+                    <i class="zmdi zmdi-accounts-alt"></i><span>Duplicate Emails</span>
+                </a>
+            </li>
+
+
+
+            <li class="sidebar-header">Voting Portal</li>
+
+            <li>
                 <a href="{{ route('votingportal') }}">
-                    <i class="zmdi zmdi-archive"></i><span>Voting Portal</span>
+                    <i class="zmdi zmdi-archive"></i><span>Create Portal</span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('portallist') }}">
-                    <i class="zmdi zmdi-archive"></i><span>Portal List</span>
+                    <i class="zmdi zmdi-format-list-bulleted"></i><span>Portal List</span>
                 </a>
             </li>
-
-            <li>
-                <a href="{{ route('userimport') }}">
-                    <i class="zmdi zmdi-archive"></i><span>Import Users</span>
-                </a>
-            </li>
-
-
-
-
-            {{--  <li>
-                <a href="icons.html">
-                <i class="zmdi zmdi-invert-colors"></i> <span>UI Icons</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="forms.html">
-                <i class="zmdi zmdi-format-list-bulleted"></i> <span>Forms</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="tables.html">
-                <i class="zmdi zmdi-grid"></i> <span>Tables</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="calendar.html">
-                <i class="zmdi zmdi-calendar-check"></i> <span>Calendar</span>
-                <small class="badge float-right badge-light">New</small>
-                </a>
-            </li>
-
-            <li>
-                <a href="profile.html">
-                <i class="zmdi zmdi-face"></i> <span>Profile</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="login.html" target="_blank">
-                <i class="zmdi zmdi-lock"></i> <span>Login</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="register.html" target="_blank">
-                <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
-                </a>
-            </li>
-
-            <li class="sidebar-header">LABELS</li>
-            <li><a href="javaScript:void();"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>
-            <li><a href="javaScript:void();"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>
-            <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>  --}}
 
         </ul>
-    
+
    </div>
    <!--End sidebar-wrapper-->
 
@@ -154,27 +112,11 @@
                 <i class="icon-menu menu-icon"></i>
                 </a>
                 </li>
-                
+
             </ul>
-                
+
             <ul class="navbar-nav align-items-center right-nav-link">
-                {{--  <li class="nav-item dropdown-lg">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
-                    <i class="fa fa-envelope-open-o"></i></a>
-                </li>
-                <li class="nav-item dropdown-lg">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
-                    <i class="fa fa-bell-o"></i></a>
-                </li>
-                <li class="nav-item language">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();"><i class="fa fa-flag"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
-                        <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
-                        <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
-                        <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
-                    </ul>
-                </li>  --}}
+
                 <li class="nav-item">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile"><img src="{{ asset('custom_img/2.jpg') }}" class="img-circle" alt="user avatar"></span> <span>{{ Auth::user()->name }}</span>
@@ -211,7 +153,7 @@
 <!--End topbar header-->
 
 <div class="clearfix"></div>
-	
+
   <div class="content-wrapper">
     <div class="container-fluid">
 
@@ -220,20 +162,20 @@
         @yield('page_content')
 
         <!--End Dashboard Content-->
-	  
+
 	<!--start overlay-->
 		  <div class="overlay toggle-menu"></div>
 		<!--end overlay-->
-		
+
     </div>
     <!-- End container-fluid-->
-    
+
     </div><!--End content-wrapper-->
-    
+
    <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->
-	
+
 	<!--Start footer-->
 	<footer class="footer">
       <div class="container">
@@ -243,7 +185,7 @@
       </div>
     </footer>
 	<!--End footer-->
-	
+
   <!--start color switcher-->
    {{--  <div class="right-sidebar">
     <div class="switcher-icon">
@@ -253,7 +195,7 @@
 
       <p class="mb-0">Gaussion Texture</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme1"></li>
         <li id="theme2"></li>
@@ -265,7 +207,7 @@
 
       <p class="mb-0">Gradient Background</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme7"></li>
         <li id="theme8"></li>
@@ -277,21 +219,21 @@
         <li id="theme14"></li>
         <li id="theme15"></li>
       </ul>
-      
+
      </div>
    </div>  --}}
   <!--end color switcher-->
-   
+
   </div><!--End wrapper-->
 
-  
+
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('backendAssets/assets/js/jquery.min.js') }}"></script>
   <script src="{{ asset('backendAssets/assets/js/popper.min.js') }}"></script>
   <script src="{{ asset('backendAssets/assets/js/bootstrap.min.js') }}"></script>
-	
 
-  
+
+
 
  <!-- simplebar js -->
   <script src="{{ asset('backendAssets/assets/plugins/simplebar/js/simplebar.js') }}"></script>
@@ -302,14 +244,14 @@
   <!-- Custom scripts -->
   <script src="{{ asset('backendAssets/assets/js/app-script.js') }}"></script>
   <!-- Chart js -->
-  
+
   <script src="{{ asset('backendAssets/assets/plugins/Chart.js/Chart.min.js') }}"></script>
- 
+
   <!-- Index js -->
   <script src="{{ asset('backendAssets/assets/js/index.js') }}"></script>
-  
+
   @yield('footer_js')
 
- 
+
 </body>
 </html>

@@ -48,8 +48,17 @@ Route::post('/candidate/add-new', 'AdminController@candidateAddNew')->name('cand
 Route::get('/voting-portal/active/{id}', 'AdminController@portalActive')->name('portalActive')->middleware('auth');
 Route::get('/voting-portal/close/{id}', 'AdminController@portalClose')->name('portalClose')->middleware('auth');
 
-
-Route::get('/user-import', 'AdminController@userimport')->name('userimport')->middleware('auth');
+//Adding user according to organization
+Route::get('/add-users', 'AdminController@addUsers')->name('addUsers')->middleware('auth');
 Route::post('/user-upload', 'AdminController@userlistUpload')->name('userlistUpload')->middleware('auth');
+Route::post('/add-users/create', 'AdminController@addSingleUser')->name('addSingleUser')->middleware('auth');
+
+
+
+//Doublicate Email Users
+Route::get('/duplicate-email-users', 'AdminController@DuplicateEmailUsers')->name('DuplicateEmailUsers')->middleware('auth');
+Route::get('/duplicate-email-users/update/{id}', 'AdminController@UpdateDubplicateEmails')->name('UpdateDubplicateEmails')->middleware('auth');
+
+
 
 Route::get('/test', 'AdminController@test')->name('testTrial')->middleware('auth');
