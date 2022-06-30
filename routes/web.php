@@ -64,3 +64,8 @@ Route::get('/duplicate-email-users/change/all', 'AdminController@AllUserUpdateOr
 
 
 Route::get('/test/{id}', 'AdminController@test')->name('testTrial')->middleware('auth');
+
+
+////////////////////////////////////////////////// User Routes ///////////////////////////////////////////////
+
+Route::get('/user-panel', 'UserController@index')->name('user-panel')->middleware('auth');

@@ -88,13 +88,13 @@ class AdminController extends Controller
           }
 
 
-        return view('backend.test',compact('testTrial'));
+        return view('backend.admin.test',compact('testTrial'));
     }
 
     function organizer()
     {
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
-        return view('backend.organizer.organizer', compact('organizers'));
+        return view('backend.admin.organizer.organizer', compact('organizers'));
     }
 
     function organizercreate(Request $req)
@@ -144,7 +144,7 @@ class AdminController extends Controller
         $users = User::whereRoleIs('user')->orderBy('id','desc')->get();
         $organizer = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
 
-        return view('backend.user-list.list', compact('users','organizer'));
+        return view('backend.admin.user-list.list', compact('users','organizer'));
     }
 
 
@@ -153,7 +153,7 @@ class AdminController extends Controller
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
         $users = User::whereRoleIs('user')->orderBy('id','desc')->get();
 
-        return view('backend.voting-portal.create', compact('organizers','users'));
+        return view('backend.admin.voting-portal.create', compact('organizers','users'));
 
     }
 
@@ -225,7 +225,7 @@ class AdminController extends Controller
     function portallist()
     {
         $portals = VotingPortal::orderBy('id','desc')->get();
-        return view('backend.voting-portal.list', compact('portals'));
+        return view('backend.admin.voting-portal.list', compact('portals'));
     }
 
 
@@ -267,7 +267,7 @@ class AdminController extends Controller
 
         if(!empty($portal)){
 
-            return view('backend.voting-portal.view', compact('portal', 'candidates'));
+            return view('backend.admin.voting-portal.view', compact('portal', 'candidates'));
         }
         else{
             return view('404');
@@ -283,7 +283,7 @@ class AdminController extends Controller
 
         if(!empty($portal)){
 
-            return view('backend.voting-portal.change', compact('portal', 'candidates', 'organizers'));
+            return view('backend.admin.voting-portal.change', compact('portal', 'candidates', 'organizers'));
         }
         else{
             return view('404');
@@ -335,7 +335,7 @@ class AdminController extends Controller
     {
         $candidate = Candidate::where('id',$id)->first();
         if(!empty($candidate)){
-            return view('backend.candidate.change', compact('candidate'));
+            return view('backend.admin.candidate.change', compact('candidate'));
         }
         else{
             return view('404');
@@ -424,7 +424,7 @@ class AdminController extends Controller
     {
 
         $organizers = User::whereRoleIs('organizer')->orderBy('id','desc')->get();
-        return view('backend.user-list.add-users', [
+        return view('backend.admin.user-list.add-users', [
             'organizers' => $organizers
 
         ]);
@@ -517,7 +517,7 @@ class AdminController extends Controller
     {
         $duplicateEmails = DuplicateEmailUser::orderBy('id', 'DESC')->get();
 
-        return view('backend.user-list.duplicate', compact('duplicateEmails'));
+        return view('backend.admin.user-list.duplicate', compact('duplicateEmails'));
     }
 
     function UpdateDubplicateEmails($id)
