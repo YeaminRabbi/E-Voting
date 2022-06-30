@@ -11,12 +11,26 @@
             @endif
         </div>
         <div class="col-mb-12">
-            <p>Click make changes to <span style="color:lime;font-weight:bold;">"ADD LAST THREE DIGITS BEFORE MAIL ADDRESS"</span> of individual's Phone no.</p>
+            <p class="ml-2">Click make changes to <span style="color:lime;font-weight:bold;">"CHANGE TO CURRENT ORGANIZER"</span></p>
         </div>
 
         <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <h4 class="mt-2 mb-3">Duplicate Email List</h4>
 
-            <h4 class="mt-2 mb-3">Duplicate Email List</h4>
+                </div>
+                <div class="col-md-6">
+
+                  @if ($duplicateEmails->isNotEmpty())
+                      <a href="{{ route('AllUserUpdateOrganizer') }}" class="btn btn-warning btn-md float-right">Make Changes to All Users</a>
+                    
+                  @else
+                      <a href="" class="btn btn-warning btn-md float-right disabled">Make Changes to All Users</a>
+                    
+                  @endif
+                </div>
+              </div>
               <div class="table-responsive">
                 <table class="table" id="userTable" style="color:black;background-color:aquamarine;">
                   <thead>
@@ -40,7 +54,7 @@
                             <td>{{ $data->name }}</td>
                             <td>{{ $data->email }}</td>
                             <td>{{ $data->phone }}</td>
-
+                           
                             <td>
                                 {{ $data->getOrganizer($data->organizer_id)->name }}
                             </td>

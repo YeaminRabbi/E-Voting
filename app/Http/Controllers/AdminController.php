@@ -522,26 +522,42 @@ class AdminController extends Controller
 
     function UpdateDubplicateEmails($id)
     {
-        $userList = DuplicateEmailUser::where('id', $id)->first();
+        $duplicateUserList = DuplicateEmailUser::where('id', $id)->first();
+        $previousAccount = User::where('email', $duplicateUserList->email)->first();
 
-        $user = new user;
-        $user->name = $userList->name;
-        $user->email = substr($userList->phone, -3).$userList->email;
-        $user->phone = $userList->phone;
-        $user->phone = $userList->phone;
-        $user->password =  Hash::make($userList->phone);
+        $previousAccount->organizer_id = $duplicateUserList->organizer_id;
+        $previousAccount->save();
 
-        $user->email_verified_at = Carbon::now();
-        $user->organizer_id = $userList->organizer_id;
-        $user->save();
-
-        $RegisteredUser = User::find($user->id);
-        $RegisteredUser->attachRole('user');
-        $RegisteredUser->save();
-
-        $userList->delete();
+        $duplicateUserList->delete();
 
         return back()->with('success', 'The User has been added!');
+
+    }
+
+    function AllUserUpdateOrganizer()
+    {
+        $duplicateUserList = DuplicateEmailUser::orderBy('id','desc')->get();
+
+       
+        if(isset($duplicateUserList)){
+            foreach($duplicateUserList as $duplicateUser)
+            {
+                $previousAccount = User::where('email', $duplicateUser->email)->first();
+    
+                $previousAccount->organizer_id = $duplicateUser->organizer_id;
+                $previousAccount->save();
+    
+                $duplicateUser->delete();
+            }
+
+            return back()->with('success', 'All Users has been added!');
+
+        }
+        else{
+            return back()->with('warning', 'No users left to make changes');
+
+        }      
+
 
     }
 }

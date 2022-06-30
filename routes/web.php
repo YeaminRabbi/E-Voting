@@ -58,6 +58,8 @@ Route::post('/add-users/create', 'AdminController@addSingleUser')->name('addSing
 //Doublicate Email Users
 Route::get('/duplicate-email-users', 'AdminController@DuplicateEmailUsers')->name('DuplicateEmailUsers')->middleware('auth');
 Route::get('/duplicate-email-users/update/{id}', 'AdminController@UpdateDubplicateEmails')->name('UpdateDubplicateEmails')->middleware('auth');
+Route::get('/duplicate-email-users/change/all', 'AdminController@AllUserUpdateOrganizer')->name('AllUserUpdateOrganizer')->middleware('auth');
+
 
 
 

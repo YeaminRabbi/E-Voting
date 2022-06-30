@@ -13,4 +13,5 @@ class DuplicateEmailUser extends Model
         $organizer = User::where('id',$id)->first();
         return $organizer;
     }
+
 }

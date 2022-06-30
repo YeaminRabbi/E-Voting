@@ -15,6 +15,7 @@
                       <th scope="col">SL</th>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
+                      <th scope="col">Phone</th>
                       <th scope="col">Organizer</th>
                     </tr>
                   </thead>
@@ -27,6 +28,7 @@
                             <th scope="row">{{ $key+1 }}</th>
                             <td>{{ $data->name }}</td>
                             <td>{{ $data->email }}</td>
+                            <td>{{ $data->phone }}</td>
 
                             <td>
                                 {{ $data->getOrganizer($data->organizer_id)->name }}
