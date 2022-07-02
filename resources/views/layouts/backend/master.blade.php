@@ -47,57 +47,102 @@
             <h5 class="logo-text">{{ Auth::user()->name }}</h5>
             </a>
         </div>
-        <ul class="sidebar-menu do-nicescrol">
-            <li class="sidebar-header">MAIN NAVIGATION</li>
-            <li>
-                <a href="{{ route('dashboard') }}">
-                <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
-                </a>
-            </li>
 
-            <li class="sidebar-header">Organizers - Users</li>
-            <li>
-                <a href="{{ route('organizer') }}">
-                    <i class="zmdi zmdi-group"></i><span>Organizer</span>
-                </a>
-            </li>
+        @if (Auth::user()->hasRole('admin'))
+            <ul class="sidebar-menu do-nicescrol">
+                <li class="sidebar-header">MAIN NAVIGATION</li>
+                <li>
+                    <a href="{{ route('dashboard') }}">
+                    <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="{{ route('addUsers') }}">
-                    <i class="zmdi zmdi-archive"></i><span>Add User</span>
-                </a>
-            </li>
+                <li class="sidebar-header">Organizers - Users</li>
+                <li>
+                    <a href="{{ route('organizer') }}">
+                        <i class="zmdi zmdi-group"></i><span>Organizer</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="{{ route('userlist') }}">
-                    <i class="zmdi zmdi-accounts-alt"></i><span>User-List</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('addUsers') }}">
+                        <i class="zmdi zmdi-archive"></i><span>Add User</span>
+                    </a>
+                </li>
 
-
-            <li>
-                <a href="{{ route('DuplicateEmailUsers') }}">
-                    <i class="zmdi zmdi-accounts-alt"></i><span>Duplicate Emails</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('userlist') }}">
+                        <i class="zmdi zmdi-accounts-alt"></i><span>User-List</span>
+                    </a>
+                </li>
 
 
+                <li>
+                    <a href="{{ route('DuplicateEmailUsers') }}">
+                        <i class="zmdi zmdi-accounts-alt"></i><span>Duplicate Emails</span>
+                    </a>
+                </li>
 
-            <li class="sidebar-header">Voting Portal</li>
 
-            <li>
-                <a href="{{ route('votingportal') }}">
-                    <i class="zmdi zmdi-archive"></i><span>Create Portal</span>
-                </a>
-            </li>
 
-            <li>
-                <a href="{{ route('portallist') }}">
-                    <i class="zmdi zmdi-format-list-bulleted"></i><span>Portal List</span>
-                </a>
-            </li>
+                <li class="sidebar-header">Voting Portal</li>
 
-        </ul>
+                <li>
+                    <a href="{{ route('votingportal') }}">
+                        <i class="zmdi zmdi-archive"></i><span>Create Portal</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('portallist') }}">
+                        <i class="zmdi zmdi-format-list-bulleted"></i><span>Portal List</span>
+                    </a>
+                </li>
+
+            </ul>
+        @elseif(Auth::user()->hasRole('organizer'))
+            <ul class="sidebar-menu do-nicescrol">
+                <li class="sidebar-header">MAIN NAVIGATION</li>
+                <li>
+                    <a href="{{ route('oraganizer-panel') }}">
+                    <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-header">Users</li>
+
+
+                <li>
+                    <a href="{{ route('addUsers-organizer') }}">
+                        <i class="zmdi zmdi-archive"></i><span>Add User</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('userlist-organizer') }}">
+                        <i class="zmdi zmdi-accounts-alt"></i><span>User-List</span>
+                    </a>
+                </li>
+
+
+
+                <li class="sidebar-header">Voting Portal</li>
+
+                <li>
+                    <a href="{{ route('votingportal-organizer') }}">
+                        <i class="zmdi zmdi-archive"></i><span>Create Portal</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('portallist-organizer') }}">
+                        <i class="zmdi zmdi-format-list-bulleted"></i><span>Portal List</span>
+                    </a>
+                </li>
+
+            </ul>
+        @endif
+
 
    </div>
    <!--End sidebar-wrapper-->

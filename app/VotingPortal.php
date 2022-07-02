@@ -12,4 +12,10 @@ class VotingPortal extends Model
         $organizer = User::select('name', 'email', 'phone')->where('id', $id)->first();
         return $organizer;
     }
+
+    function get_candidate_count($id)
+    {
+        $candidate = Candidate::where('voting_portal_id', $id)->count();
+        return $candidate;
+    }
 }
