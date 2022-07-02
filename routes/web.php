@@ -112,6 +112,8 @@ Route::group(['prefix'=>'user'],function(){
 
 
 
+Route::get('/myAccount', 'OpenController@myAccount')->name('myAccount')->middleware('auth');
+Route::post('/myAccount/update', 'OpenController@UpdateProfile')->name('UpdateProfile')->middleware('auth');
 
 
 
