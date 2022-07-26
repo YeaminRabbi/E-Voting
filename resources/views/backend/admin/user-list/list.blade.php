@@ -31,7 +31,12 @@
                             <td>{{ $data->phone }}</td>
 
                             <td>
-                                {{ $data->getOrganizer($data->organizer_id)->name }}
+                                @if (isset( $data->getOrganizer($data->organizer_id)->name  ))
+                                    {{ $data->getOrganizer($data->organizer_id)->name }}
+                                @else
+                                    No Organizer
+                                @endif
+                               
                             </td>
                           </tr>
                         @endforeach

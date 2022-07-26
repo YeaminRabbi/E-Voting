@@ -105,8 +105,9 @@ Route::group(['prefix'=>'organizer'],function(){
 Route::group(['prefix'=>'user'],function(){
 
     Route::get('/dashboard', 'UserController@index')->name('user-panel')->middleware('auth');
+    Route::get('/vote/{id}', 'UserController@GetToVote')->name('GetToVote')->middleware('auth');
 
-
+    
 
 });
 

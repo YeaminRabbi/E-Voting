@@ -25,8 +25,7 @@ class LoginController extends Controller
 
             }else if(Auth::user()->hasRole('user')){
 
-                //return redirect()->route('user-panel');
-                return 'this is a user pane';
+                return redirect()->route('user-panel');
 
             }else if(Auth::user()->hasRole('organizer') ){
 
