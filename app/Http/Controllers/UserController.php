@@ -35,7 +35,7 @@ class UserController extends Controller
     function index()
     {
         $organizer = User::select('id','name','email','phone')->where('id', Auth::user()->organizer_id)->first();        
-        $polls = VotingPortal::where('organizer_id', $organizer->id)->get();
+        $polls = VotingPortal::where('organizer_id', $organizer->id)->where('status', 1)->get();
         return view('backend.user.home.index',compact('organizer','polls'));
     }
 
@@ -44,14 +44,15 @@ class UserController extends Controller
     {
         $portal = VotingPortal::where('id',$id)->first();
         $candidates = Candidate::where('organizer_id', Auth::user()->organizer_id)->where('voting_portal_id',$portal->id)->get();
-        
+        $polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 1)->get();
+
         $testTrial =  VotingPortal::where('id',$portal->id)->first();
         $currentDate = Carbon::now();
         $startDate = $testTrial->date.' '.date('H:i:s', strtotime($testTrial->start_time));
         $endDate =  $testTrial->date.' '.date('H:i:s', strtotime($testTrial->end_time));
 
         if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
-            return "Current date is between two dates".'-----'.$currentDate.'---'. $startDate.'---'. $endDate ;
+            return view('backend.user.vote.vote', compact('portal', 'candidates','polls'));
           }else{
             return view('PollClosed');
           }

@@ -47,6 +47,10 @@
                 </div>
 
             @endforeach
+
+            @else
+            No Available Polls
+
          @endif
         </div>
     </div>
