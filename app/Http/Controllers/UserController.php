@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Candidate;
 use App\VotingPortal;
 use App\DuplicateEmailUser;
+use App\Vote;
 
 
 use Illuminate\Support\Str;
@@ -43,20 +44,57 @@ class UserController extends Controller
     function GetToVote($id)
     {
         $portal = VotingPortal::where('id',$id)->first();
-        $candidates = Candidate::where('organizer_id', Auth::user()->organizer_id)->where('voting_portal_id',$portal->id)->get();
-        $polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 1)->get();
 
-        $testTrial =  VotingPortal::where('id',$portal->id)->first();
-        $currentDate = Carbon::now();
-        $startDate = $testTrial->date.' '.date('H:i:s', strtotime($testTrial->start_time));
-        $endDate =  $testTrial->date.' '.date('H:i:s', strtotime($testTrial->end_time));
+        if(!empty($portal)){
 
-        if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
-            return view('backend.user.vote.vote', compact('portal', 'candidates','polls'));
-          }else{
-            return view('PollClosed');
-          }
+            //Checking if the user allready vote or not
+            $checkVoter = Vote::where('user_id', Auth::id())->where('voting_potal_id', $id)->first();
 
-        return $candidates;
+
+
+            $candidates = Candidate::where('organizer_id', Auth::user()->organizer_id)->where('voting_portal_id',$portal->id)->get();
+            $polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 1)->get();
+    
+            $testTrial =  VotingPortal::where('id',$portal->id)->first();
+            $currentDate = Carbon::now();
+            $startDate = $testTrial->date.' '.date('H:i:s', strtotime($testTrial->start_time));
+            $endDate =  $testTrial->date.' '.date('H:i:s', strtotime($testTrial->end_time));
+    
+            if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
+                return view('backend.user.vote.vote', compact('portal', 'candidates','polls','checkVoter'));
+              }else{
+                return view('PollClosed');
+              }
+    
+            return $candidates;
+        }
+        else{
+            return view('404');
+        }
+
+
+       
+    }
+
+
+    function CastVote(Request $req)
+    {
+        $validated = $req->validate([
+            'getcandidateID' => 'required'
+        ]);
+        
+        
+        $candidate = Candidate::where('id', $req->getcandidateID)->first();
+       
+        // return $req->all();
+
+        $vote = new Vote;
+        $vote->user_id = Auth::id();
+        $vote->organizer_id = $candidate->organizer_id;
+        $vote->voting_potal_id = $candidate->voting_portal_id;
+        $vote->candidate_id = $candidate->id;
+        $vote->save();
+
+        return back();
     }
 }

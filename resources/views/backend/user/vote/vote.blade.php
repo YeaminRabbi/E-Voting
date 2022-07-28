@@ -68,42 +68,46 @@
 
                 <hr>
                             
-                    <h5>Choose your candidate</h5>
-                
-                    <div class="row">
-                            <div class="col">
-                                @if ($candidates->isNotEmpty())
-                                    @foreach ($candidates as $key => $data)
-                                    
-                                        <label for="voter-{{ $key }}">
-                                            <img onclick=selectCandidate('candidateName-{{ $key }}','voter-{{ $key }}') src="{{ asset('images/candidate/'.$data->created_at->format('Y/M/').'/'.$data->image) }}" alt="candidate img" style="border-radius: 50%; width:50px;height:50px;cursor: pointer;">
-                                        </label>    
-                                        <input type="hidden" value="{{ $data->name }}" id="candidateName-{{ $key }}">
-                                        <input type="hidden" name="voteMe" id="voter-{{ $key }}"  value="{{ $data->id }}">
+                   @if (!isset($checkVoter))
+                        <h5>Choose your candidate</h5>
+                        
+                        <div class="row">
+                                <div class="col">
+                                    @if ($candidates->isNotEmpty())
+                                        @foreach ($candidates as $key => $data)
+                                        
+                                            <label for="voter-{{ $key }}">
+                                                <img onclick=selectCandidate('candidateName-{{ $key }}','voter-{{ $key }}') src="{{ asset('images/candidate/'.$data->created_at->format('Y/M/').'/'.$data->image) }}" alt="candidate img" style="border-radius: 50%; width:50px;height:50px;cursor: pointer;">
+                                            </label>    
+                                            <input type="hidden" value="{{ $data->name }}" id="candidateName-{{ $key }}">
+                                            <input type="hidden" name="voteMe" id="voter-{{ $key }}"  value="{{ $data->id }}">
 
-                                    @endforeach
-                                @endif
+                                        @endforeach
+                                    @endif
 
-                            </div>
-
-                            
-
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <h3 class="text-center" id="SelectedName"></h3>
-                            <form action="" method="POST" id="FORMSUBMIT" style="display: none;">
-                                @csrf
-                                <input type="hidden" value="" id="getcandidateID">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-success" style="margin-left: 40%;" onclick="return confirm('Confirm this candidate!?')">Submit</button>
-                                    </div>
                                 </div>
-                            </form>
+
+                                
+
                         </div>
-                    </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="text-center" id="SelectedName"></h3>
+                                <form action="{{ route('CastVote') }}" method="POST" id="FORMSUBMIT" style="display: none;">
+                                    @csrf
+                                    <input type="hidden" value="" name="getcandidateID" id="getcandidateID">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success" style="margin-left: 40%;" onclick="return confirm('Confirm this candidate!?')">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                   @else
+                        <h4>You already voted! Wait for result</h4>
+                   @endif
             </div>
 
            
@@ -129,7 +133,7 @@
         var candidateID = document.getElementById(voter).value;
         document.getElementById('getcandidateID').value = candidateID;
         document.getElementById('FORMSUBMIT').style.display = "block";
-
+        //console.log(candidateID);
 
         
     }
