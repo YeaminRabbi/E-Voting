@@ -58,7 +58,9 @@
                                   <a href="{{ route('portalClose', $data->id) }}" class="btn btn-danger" onclick="return confirm('are you sure? You want to Close the Portal!')">Close Portal</a>
 
                                @elseif($data->status == 2)
-                                    <button disabled class="btn btn-success">Results</button>
+                                  <a href="{{ route('AdminResultHistory', $data->id) }}">
+                                    <button class="btn btn-success">Results</button>
+                                  </a>
                                @else
                                     <p>Error</p>
                                @endif

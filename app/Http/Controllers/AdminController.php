@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Candidate;
 use App\VotingPortal;
 use App\DuplicateEmailUser;
+use App\Vote;
 
 
 use Illuminate\Support\Str;
@@ -33,6 +34,38 @@ class AdminController extends Controller
         $this->middleware('role:admin');
     }
 
+    function ResultHistory($id)
+    {
+        $portal = VotingPortal::where('id',$id)->where('status', 2)->first();
+
+        if(!empty($portal)){    
+            $candidates = Candidate::where('organizer_id', $portal->organizer_id)->where('voting_portal_id',$portal->id)->get();
+            $winnerData = Vote::where('voting_potal_id',$portal->id)
+            ->selectRaw("COUNT(*) as total_vote")
+            ->selectRaw("candidate_id")
+            ->groupBy('candidate_id')
+            ->get();
+            
+            
+            $winnerID = "";
+            $voteCount = -99999;
+            foreach($winnerData as $key => $item)
+            {
+                if($item->total_vote > $voteCount){
+                    $voteCount = $item->total_vote;
+                    $winnerID = $item->candidate_id;
+                }
+            }
+            
+            $winnerCandidate = Candidate::where('id', $winnerID)->first();
+            return view('backend.admin.voting-portal.result', compact('winnerCandidate', 'voteCount', 'portal', 'candidates'));
+            
+        }
+        else{
+            return view('404');
+        }
+
+    }
 
     function addSingleUser(Request $request)
     {

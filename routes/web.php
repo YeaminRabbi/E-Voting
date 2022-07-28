@@ -60,7 +60,8 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('/duplicate-email-users/update/{id}', 'AdminController@UpdateDubplicateEmails')->name('UpdateDubplicateEmails')->middleware('auth');
     Route::get('/duplicate-email-users/change/all', 'AdminController@AllUserUpdateOrganizer')->name('AllUserUpdateOrganizer')->middleware('auth');
 
-
+    //Result history
+    Route::get('/result/history/{id}', 'AdminController@ResultHistory')->name('AdminResultHistory')->middleware('auth');
 
 });
 
@@ -92,6 +93,10 @@ Route::group(['prefix'=>'organizer'],function(){
 
     Route::get('/voting-portal/active/{id}', 'OrganizerController@portalActive')->name('portalActive-organizer')->middleware('auth');
     Route::get('/voting-portal/close/{id}', 'OrganizerController@portalClose')->name('portalClose-organizer')->middleware('auth');
+
+
+    //Result history
+    Route::get('/result/history/{id}', 'OrganizerController@ResultHistory')->name('OrganizerResultHistory')->middleware('auth');
 
 
 });
