@@ -37,7 +37,8 @@ class UserController extends Controller
     {
         $organizer = User::select('id','name','email','phone')->where('id', Auth::user()->organizer_id)->first();        
         $polls = VotingPortal::where('organizer_id', $organizer->id)->where('status', 1)->get();
-        return view('backend.user.home.index',compact('organizer','polls'));
+        $previous_polls = VotingPortal::where('organizer_id', $organizer->id)->where('status', 2)->get();
+        return view('backend.user.home.index',compact('organizer','polls','previous_polls'));
     }
 
 
@@ -54,6 +55,7 @@ class UserController extends Controller
 
             $candidates = Candidate::where('organizer_id', Auth::user()->organizer_id)->where('voting_portal_id',$portal->id)->get();
             $polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 1)->get();
+            $previous_polls = VotingPortal::where('organizer_id',Auth::user()->organizer_id)->where('status', 2)->get();
     
             $testTrial =  VotingPortal::where('id',$portal->id)->first();
             $currentDate = Carbon::now();
@@ -61,7 +63,7 @@ class UserController extends Controller
             $endDate =  $testTrial->date.' '.date('H:i:s', strtotime($testTrial->end_time));
     
             if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
-                return view('backend.user.vote.vote', compact('portal', 'candidates','polls','checkVoter'));
+                return view('backend.user.vote.vote', compact('portal', 'candidates','polls','checkVoter','previous_polls'));
               }else{
                 return view('PollClosed');
               }
@@ -96,5 +98,48 @@ class UserController extends Controller
         $vote->save();
 
         return back();
+    }
+
+    function VotingHistory($id)
+    {
+        $portal = VotingPortal::where('id',$id)->where('status', 2)->first();
+
+        if(!empty($portal)){
+
+            $polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 1)->get();
+            $previous_polls = VotingPortal::where('organizer_id', Auth::user()->organizer_id)->where('status', 2)->get();
+    
+            $candidates = Candidate::where('organizer_id', Auth::user()->organizer_id)->where('voting_portal_id',$portal->id)->get();
+
+            $winnerData = Vote::where('voting_potal_id',$portal->id)
+            ->selectRaw("COUNT(*) as total_vote")
+            ->selectRaw("candidate_id")
+            ->groupBy('candidate_id')
+            ->get();
+            // return $winnerData;
+            
+            $winnerID = "";
+            $voteCount = -99999;
+            foreach($winnerData as $key => $item)
+            {
+                if($item->total_vote > $voteCount){
+                    $voteCount = $item->total_vote;
+                    $winnerID = $item->candidate_id;
+                }
+            }
+            
+            $winnerCandidate = Candidate::where('id', $winnerID)->first();
+
+
+            return view('backend.user.vote.result', compact('winnerCandidate', 'voteCount', 'portal', 'candidates', 'polls', 'previous_polls'));
+
+            
+    
+            
+        }
+        else{
+            return view('404');
+        }
+
     }
 }

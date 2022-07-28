@@ -60,6 +60,11 @@
                                 <div class="col d-flex">
                                    <img src="{{ asset('images/candidate/'.$data->created_at->format('Y/M/').'/'.$data->image) }}" alt="candidate img" style="border-radius: 50%; width:50px;height:50px;">
                                    &nbsp;&nbsp;&nbsp;&nbsp;<h5 class="mt-2">{{ $data->name }}</h5>
+                                  
+                                  
+                                </div>
+                                <div class="col">
+                                    <p style="margin-left:30%;font-size:25px;">{{ $data->get_voteCount($data->id) }}</p>
                                 </div>
                             </div>
                             <br>

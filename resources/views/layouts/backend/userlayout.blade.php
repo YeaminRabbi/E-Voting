@@ -42,7 +42,7 @@
   <!--Start sidebar-wrapper-->
    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
         <div class="brand-logo">
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('user-panel') }}">
             <img src="{{ asset('backendAssets/assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
             <h5 class="logo-text">Online Voting</h5>
             </a>
@@ -60,10 +60,24 @@
                         </a>
                     </li>
                 @endforeach
-              
 
-             
+
+
+                <hr>
+                <li class="sidebar-header">Previous Polls</li>
+
+                @foreach ($previous_polls as $item)
+                    <li>
+                        <a href="{{ route('VotingHistory', $item->id) }}">
+                        <i class="zmdi zmdi-view-dashboard"></i> <span>{{ $item->position }}</span>
+                        </a>
+                    </li>
+                @endforeach
+
             </ul>
+
+
+            
        
 
 

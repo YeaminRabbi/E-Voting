@@ -107,6 +107,7 @@ Route::group(['prefix'=>'user'],function(){
     Route::get('/dashboard', 'UserController@index')->name('user-panel')->middleware('auth');
     Route::get('/vote/{id}', 'UserController@GetToVote')->name('GetToVote')->middleware('auth');
     Route::post('/cast-vote', 'UserController@CastVote')->name('CastVote')->middleware('auth');
+    Route::get('/voting/history/{id}', 'UserController@VotingHistory')->name('VotingHistory')->middleware('auth');
 
     
 
