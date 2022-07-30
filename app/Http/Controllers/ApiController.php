@@ -14,6 +14,8 @@ use App\Vote;
 
 use App\Http\Resources\UserResournce;
 use App\Http\Resources\PollResource;
+use App\Http\Resources\ResultResource;
+use App\Http\Resources\CandidateResource;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -39,5 +41,12 @@ class ApiController extends Controller
    function getPolls()
    {
         return PollResource::collection(VotingPortal::all());
+   }
+
+   function getResults()
+   {
+    return response([
+        "data" =>  ResultResource::collection( VotingPortal::where('status', 2)->get())
+    ]);
    }
 }

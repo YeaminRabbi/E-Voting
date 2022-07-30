@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('users', 'ApiController@getUser')->name('getUser');
 Route::get('polls', 'ApiController@getPolls')->name('getPolls');
+Route::get('results', 'ApiController@getResults')->name('getResults');
