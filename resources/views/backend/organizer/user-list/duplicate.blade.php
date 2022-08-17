@@ -56,7 +56,7 @@
                             <td>{{ $data->phone }}</td>
                            
                             <td>
-                                {{ $data->getOrganizer($data->organizer_id)->name }}
+                                {{ $data->getOrganizer($data->organizer_id)->name  ?? ''}}
                             </td>
                             <td>{{ $data->created_at->format('d-M-Y') }}</td>
                             <td>
