@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta name="description" content=""/>
   <meta name="author" content=""/>
-  <title>JellyFish</title>
+  <title>Online Voting</title>
 
   <!-- loader-->
   <link href="{{ asset('backendAssets/assets/css/pace.min.css') }}" rel="stylesheet"/>
@@ -82,9 +82,9 @@
 			 </form>
 		   </div>
 		  </div>
-		  <div class="card-footer text-center py-3">
+		  {{-- <div class="card-footer text-center py-3">
 		    <p class="text-warning mb-0">Do not have an account? <a href="{{ route('user_registration') }}"> Sign Up here</a></p>
-		  </div>
+		  </div> --}}
 	     </div>
     
      <!--Start Back To Top Button-->

@@ -25,6 +25,10 @@ class LoginController extends Controller
 
             }else if(Auth::user()->hasRole('user')){
 
+                if(Auth::user()->is_verified !=1)
+                {
+                    return 'Please Verify your account';
+                }
                 return redirect()->route('user-panel');
 
             }else if(Auth::user()->hasRole('organizer') ){

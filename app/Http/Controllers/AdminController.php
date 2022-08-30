@@ -144,6 +144,7 @@ class AdminController extends Controller
         $user->name = $req->name;
         $user->email = $req->email;
         $user->phone = $req->phone;
+        $user->is_verified = 1;
         $user->password = Hash::make($req->password);
         $user->email_verified_at = Carbon::now();
         $user->details = $req->details;
