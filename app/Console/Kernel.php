@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\CheckVotingTime::class,
     ];
 
     /**
@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+        $schedule->command('check:votingtime')->everyMinute();
         // $schedule->call(function () {
         //     DB::table('duplicate_email_users')->delete();
         // })->everyFiveMinutes();
