@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('frontend.home.index');
+});
+Route::get('/home', function () {
+    if(Auth::user()->is_verified != 1){
+        return redirect()->route('VerifyPage');
+    }
+    else{
+        return redirect()->route('user-panel');
+    }
 });
 Auth::routes(['verify' => true]);
 
@@ -114,8 +122,11 @@ Route::group(['prefix'=>'user'],function(){
     Route::post('/cast-vote', 'UserController@CastVote')->name('CastVote')->middleware('auth');
     Route::get('/voting/history/{id}', 'UserController@VotingHistory')->name('VotingHistory')->middleware('auth');
 
-    
+    Route::get('/user-verification', 'UserVerification@index')->name('VerifyPage')->middleware('auth');
+    Route::post('/user-verification/send-otp', 'UserVerification@sendOTP')->name('sendOTP')->middleware('auth');
+    Route::post('/user-verification/confirm-otp', 'UserVerification@confirmOTP')->name('confirmOTP')->middleware('auth');
 
+    
 });
 
 

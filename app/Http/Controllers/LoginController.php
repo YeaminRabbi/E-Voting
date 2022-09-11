@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use App\User;
 
+use App\User;
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     function LOGIN(Request $req)
@@ -27,9 +27,16 @@ class LoginController extends Controller
 
                 if(Auth::user()->is_verified !=1)
                 {
-                    return 'Please Verify your account';
+                    return redirect()->route('VerifyPage');
                 }
-                return redirect()->route('user-panel');
+                else if(Auth::user()->is_verified ==1)
+                {
+                    return redirect()->route('user-panel');
+                }
+                else{
+                    Auth::logout();
+                    return back();
+                }
 
             }else if(Auth::user()->hasRole('organizer') ){
 
