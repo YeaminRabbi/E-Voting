@@ -18,6 +18,8 @@
                       <th scope="col">SL</th>
                       <th scope="col">Organizer</th>
                       <th scope="col">Position</th>
+                      <th scope="col">Start</th>
+                      <th scope="col">End</th>
                       <th scope="col">Date</th>
                       <th scope="col">Status</th>
 
@@ -33,6 +35,8 @@
                             <th scope="row">{{ $key+1 }}</th>
                             <td>{{ $data->get_organizer($data->organizer_id)->name }}</td>
                             <td>{{ $data->position }}</td>
+                            <td>{{ date('h:i a', strtotime($data->start_time)) }}</td>
+                            <td>{{ date('h:i a', strtotime($data->end_time)) }}</td>
                             <td>{{ date('d M, Y', strtotime($data->date)) }}</td>
 
                             <td>
@@ -50,16 +54,16 @@
 
                             <td>
                                 @if ($data->status == 0)
-                                  <a href="{{ route('portalActive', $data->id) }}" class="btn btn-dark">Make Active</a>
-                                  <a href="{{ route('portalChange', $data->id) }}" class="btn btn-primary">Change</a>
-                                  <a href="{{ route('portalView', $data->id) }}" class="btn btn-warning">View</a>
+                                  <a href="{{ route('portalActive', $data->id) }}" class="btn btn-dark btn-sm">Make Active</a>
+                                  <a href="{{ route('portalChange', $data->id) }}" class="btn btn-primary btn-sm">Change</a>
+                                  <a href="{{ route('portalView', $data->id) }}" class="btn btn-warning btn-sm">View</a>
 
                                @elseif ($data->status == 1)
-                                  <a href="{{ route('portalClose', $data->id) }}" class="btn btn-danger" onclick="return confirm('are you sure? You want to Close the Portal!')">Close Portal</a>
+                                  <a href="{{ route('portalClose', $data->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('are you sure? You want to Close the Portal!')">Close Portal</a>
 
                                @elseif($data->status == 2)
                                   <a href="{{ route('AdminResultHistory', $data->id) }}">
-                                    <button class="btn btn-success">Results</button>
+                                    <button class="btn btn-success btn-sm">Results</button>
                                   </a>
                                @else
                                     <p>Error</p>

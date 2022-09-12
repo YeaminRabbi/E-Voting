@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\User;
+use App\VotingPortal;
 use Carbon\carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 class CheckVotingTime extends Command
 {
     /**
@@ -40,14 +38,34 @@ class CheckVotingTime extends Command
      */
     public function handle()
     {
-        $user = new User;
-        $user->name = Str::random(10);
-        $user->email = Str::random(6).'@gmail.com';
-        $user->password =  Hash::make(Str::random(3));
-        $user->phone = Str::random(11);
-        $user->email_verified_at = Carbon::now();
-        $user->organizer_id = 1;
-        $user->save();
+        $pendingPolls = VotingPortal::get();
+        // $activePolls = VotingPortal::where('status', 1)->get();
+
+
+        foreach($pendingPolls as $key=>$poll)
+        {
+
+            $currentDate = Carbon::now();
+            $startDate = $poll->date . ' ' . date('H:i:s', strtotime($poll->start_time));
+            $endDate =  $poll->date . ' ' . date('H:i:s', strtotime($poll->end_time));
+            
+            if($poll->status == 0)
+            {
+                if (($currentDate >= $startDate) && ($currentDate <= $endDate)) {
+                    $poll->status = 1;
+                    $poll->save();
+                } 
+            }
+            else if($poll->status == 1)
+            {
+                if (($currentDate >= $startDate) && ($currentDate >= $endDate)) {
+                    $poll->status = 2;
+                    $poll->save();
+                } 
+            }
+            
+        }
+        
 
         //run php artisan schedule:work
     }
