@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\VotingPortal;
 use Carbon\carbon;
+
 class CheckVotingTime extends Command
 {
     /**
@@ -38,34 +39,26 @@ class CheckVotingTime extends Command
      */
     public function handle()
     {
-        $pendingPolls = VotingPortal::get();
-        // $activePolls = VotingPortal::where('status', 1)->get();
+        $votingPoll = VotingPortal::get();
 
-
-        foreach($pendingPolls as $key=>$poll)
-        {
+        foreach ($votingPoll as $key => $poll) {
 
             $currentDate = Carbon::now();
             $startDate = $poll->date . ' ' . date('H:i:s', strtotime($poll->start_time));
             $endDate =  $poll->date . ' ' . date('H:i:s', strtotime($poll->end_time));
-            
-            if($poll->status == 0)
-            {
+
+            if ($poll->status == 0) {
                 if (($currentDate >= $startDate) && ($currentDate <= $endDate)) {
                     $poll->status = 1;
                     $poll->save();
-                } 
-            }
-            else if($poll->status == 1)
-            {
+                }
+            } else if ($poll->status == 1) {
                 if (($currentDate >= $startDate) && ($currentDate >= $endDate)) {
                     $poll->status = 2;
                     $poll->save();
-                } 
+                }
             }
-            
         }
-        
 
         //run php artisan schedule:work
     }
