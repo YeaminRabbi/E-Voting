@@ -318,7 +318,7 @@
                 <div class="testimonial-item">
                   <div class="d-flex align-items-center mb-4">
                     <div class="photo mr-3">
-                      <img src="images/person_4-min.jpg" alt="Image" class="img-fluid">
+                      <img src="{{ asset('frontendAssets/images/person_4-min.jpg') }}" alt="Image" class="img-fluid">
                     </div>
                     <div class="author">
                       <cite class="d-block mb-0">Kaila Woodland</cite>
@@ -373,16 +373,7 @@
 
     
 
-    <div class="site-section overlay site-cover-2" style="background-image: url('images/img_v_4-min.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-7 mx-auto text-center">
-            <h2 class="text-white mb-4">Get this template for free! :)</h2>
-            <p class="mb-0"><a href="https://untree.co/" rel="noopener" class="btn btn-primary">Get it for free!</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 <div class="section-grey bg-light">
       <div class="container bg-white p-5">
 
