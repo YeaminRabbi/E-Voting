@@ -3,11 +3,14 @@
 @section('page_content')
     
 <section>
+    @if (!empty($winnerCandidate))
     <div class="celebration-section">
         <button id="startConfetti" style="display: none;">Start</button>
     </div>
     <div class="">
-        <div class="row mt-3">
+        
+
+          <div class="row mt-3">
 
             <div class="col-8">
                 <div class="row">
@@ -80,10 +83,13 @@
            
             
        </div>
-
-      
-
+       
     </div>
+    @else
+        <div>
+          <p>No Vote was given in this portal</p>
+        </div>
+    @endif
 </section>
 	
 @endsection

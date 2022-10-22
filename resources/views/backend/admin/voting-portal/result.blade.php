@@ -3,7 +3,8 @@
 @section('page_content')
 
 <section>
-    <div class="">
+   @if (!empty($winnerCandidate))
+        <div class="">
         <div class="row mt-3">
 
             <div class="col-8">
@@ -90,6 +91,11 @@
         </div>
 
     </div>
+   @else
+       <div>
+        <p>No Vote was casted in this poll</p>
+       </div>
+   @endif
 </section>
 
 @endsection

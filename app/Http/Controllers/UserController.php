@@ -87,7 +87,7 @@ class UserController extends Controller
         
         
         $candidate = Candidate::where('id', $req->getcandidateID)->first();
-       
+        $portal = VotingPortal::where('id', $candidate->voting_portal_id)->first();
         // return $req->all();
 
         $vote = new Vote;
@@ -96,6 +96,15 @@ class UserController extends Controller
         $vote->voting_potal_id = $candidate->voting_portal_id;
         $vote->candidate_id = $candidate->id;
         $vote->save();
+
+        $user = Auth::user();
+        
+        $details = [
+            'portal_position' =>  $portal->position
+        ];
+    
+        \Mail::to( $user->email)->send(new \App\Mail\VoteConfirmationMail($details));
+    
 
         return back();
     }

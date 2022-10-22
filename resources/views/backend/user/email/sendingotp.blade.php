@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ItsolutionStuff.com</title>
+    <title>Cvoting</title>
 </head>
 <body>
     <p>Your account verification otp:</p>

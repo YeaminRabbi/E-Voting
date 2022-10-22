@@ -171,7 +171,7 @@
 	<footer class="footer">
       <div class="container">
         <div class="text-center">
-            <p>Copyright © <?php $year = date("Y"); echo $year; ?> All rights reserved. Developed by <a href="#" target="_blank">DEVELOP IT</a></p>
+            <p>Copyright © <?php $year = date("Y"); echo $year; ?> All rights reserved. Developed by <a href="#" target="_blank">Team A-4</a></p>
         </div>
       </div>
     </footer>

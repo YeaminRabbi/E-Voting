@@ -472,7 +472,7 @@
       <div class="container">
         <div class="row justify-content-center text-center ">
           <div class="col-md-8">
-            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="#">TEAM IT</a> <!-- License information: https://untree.co/license/ -->
+            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="#">Team A-4</a> <!-- License information: https://untree.co/license/ -->
             </p> </br> 
           </div>
         </div>
